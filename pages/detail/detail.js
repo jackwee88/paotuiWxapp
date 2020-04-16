@@ -93,7 +93,6 @@ Page({
     } else {
       wx.navigateBack({})
     }
-    that.getdetail()
   },
   onShow: function () {},
   timechange: function () {

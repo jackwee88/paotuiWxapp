@@ -48,9 +48,9 @@ Page({
             wx.navigateTo({
               url: '/pages/address/create',
             })
-            wx.navigateBack({
-              detal:1
-            })
+            // wx.navigateBack({
+            //   detal:1
+            // })
           }
         )
         }
