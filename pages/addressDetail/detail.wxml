@@ -1,0 +1,11 @@
+<view class="containeradd">
+  <scroll-view scroll-y>
+  <view wx:for="{{detail_addr}}" wx:key="id" wx:for-item="item" >
+  <view catchtap="checked" data-name="{{item.name}}" data-index="{{index}}" data-id="{{item.id}}">
+        <view class="addresslist">{{item.name}}</view>
+        <!-- <image></image> -->
+        </view>
+        <view class="hr" style="width:100%;"></view>
+  </view>
+  </scroll-view>
+</view>

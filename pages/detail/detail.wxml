@@ -1,0 +1,20 @@
+		<van-cell title="订单状态：{{status}}" id="title"/>
+	<view class="p-bottom" style="background-color:pink">
+		<!-- 这里是总计 和 邮费 -->
+		<van-cell-group id="order-info">
+			<van-cell title="订单编号：" value="{{number}}" />
+			<van-cell title="下单时间：" value-class="creattime" value="{{createtime}}" />
+			<van-cell title="支付时间：" value-class="creattime" value="{{paytime}}" />
+			<van-cell title="收件人：" value="{{addressee}}" />
+
+		</van-cell-group>
+    <van-cell-group custom-class="vcg-c">
+		  <van-cell title="共支付：" value="￥{{money}}" value-class="pric-cell"/>
+		</van-cell-group>
+	</view>
+	<view class="footer-fixed" bindtap="confirm">
+		确认收件
+	</view>
+  	<view class="image-fixed">
+	<image src="../../img/kf.png" style="width:60px;height:60px;"></image>
+	</view>

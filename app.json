@@ -1,0 +1,17 @@
+{
+  "pages":[
+    "pages/address/create",
+    "pages/index/login",
+    "pages/detail/detail",
+    "pages/logs/logs",
+    "pages/addressDetail/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#48b25a",
+    "navigationBarTitleText": "仓库",
+    "navigationBarTextStyle": "white"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
