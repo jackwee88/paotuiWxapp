@@ -1,4 +1,5 @@
 	<view style="width:90%;margin:20rpx auto">
+
 		<view class='scroll_view_border' style="--marqueeWidth--:-12em">
 			<view style="display:flex;background-color:#fff;position:relative;z-index:22;height:100%;align-items:center;">
 				<image src="../../img/gg.png" style="width:34rpx;height:34rpx;"></image>
@@ -6,7 +7,7 @@
 			<view class="srcoll_view" bindtap="textclick">{{annouce}}
 			</view>
 		</view>
-		<van-cell-group border="{{false}}">
+			<scroll-view scroll-y>
 			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx" bindtap="getLocation">
 					<text class='itemtitle'>从哪里取</text>
 					<view class="select" wx:if="{{address_name}}==''">
@@ -50,7 +51,8 @@
 				</view>
 			</view>
 			<view class="hr" style="margin-bottom:20rpx;"></view>
-		</van-cell-group>
+	</scroll-view>
+			
 	</view>
 
 	<view class="footer-fixed" bindtap="pay">

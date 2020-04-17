@@ -26,7 +26,6 @@ Page({
     //下单时间
     addtime: '',
     //支付时间
-    paytime: '',
     //收件人
     addressee: '',
     //共支付
@@ -50,11 +49,9 @@ Page({
           number: res.data.orderData.number,
           addressee: res.data.orderData.addressee,
           addtime: res.data.orderData.addtime,
-          paytime: res.data.orderData.paytime,
           money: res.data.orderData.money,
           state: res.data.orderData.state,
         })
-
         function timestampToTime(timestamp) {
           var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
           var Y = date.getFullYear() + '-';
@@ -65,9 +62,17 @@ Page({
           var s = date.getSeconds();
           return Y + M + D + h + m + s;
         }
+        if(res.data.orderData.paytime==0){
+          this.setData({
+            paytime:'未支付'
+          })
+        }else{
+          this.setData({
+            paytime: timestampToTime(res.data.orderData.paytime),
+          })
+        }
         this.setData({
           createtime: timestampToTime(res.data.orderData.addtime),
-          paytime: timestampToTime(res.data.orderData.paytime)
         })
         if (this.data.state == 0) {
           that.setData({
@@ -95,7 +100,7 @@ Page({
     }
   },
   onShow: function () {},
-  timechange: function () {
+  timechange: function () { 
 
   },
 

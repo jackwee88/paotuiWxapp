@@ -62,7 +62,7 @@ Page({
   },
 
   onShow: function () {
-    // this.getAddressType()
+    this.getAnnouce()
     var screenW = wx.getSystemInfoSync().windowWidth
   },
   //获取地址类型

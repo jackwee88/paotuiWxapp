@@ -1,14 +1,12 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-    <view bindtap="gotoindex">跳转首页</view>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<view class="content">
+	<view wx:for="{{orderlist}}" wx:for-item="item" wx:key="id" class="order" bindtap="getdetail" data-id="{{item.id}}">
+		<view class="orderstatus">订单状态：{{item.showText}}</view>
+		<view class="ordernum">订单编号：{{item.number}}</view>
+		<view class="ordermoney">
+			<view>取件码：{{item.takecode}}</view>
+			<view style="color:#E02020">￥{{item.money}}元</view>
+		</view>
+	</view>
+
 </view>

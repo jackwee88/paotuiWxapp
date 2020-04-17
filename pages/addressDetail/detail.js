@@ -44,7 +44,7 @@ Page({
       wx.navigateBack({
         delta: 1, //返回到前一个页面
       })
-    }, 2000)
+    }, 1000)
   },
   onUnload(){
     var pages = getCurrentPages();

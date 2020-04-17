@@ -45,7 +45,7 @@ Page({
             console.log('ddddddddddddd'+res.data.memberDetails.token)
             wx.setStorageSync('token', res.data.memberDetails.token)
             App.globalData.userInfo = res.data.memberDetails;
-            wx.navigateTo({
+            wx.switchTab({
               url: '/pages/address/create',
             })
             // wx.navigateBack({
