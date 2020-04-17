@@ -14,10 +14,10 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 function ajax(url, params, cb) {
-  wx.showLoading({
-    title: '加载中',
-    mask: true,
-  })
+  // wx.showLoading({
+  //   title: '加载中',
+  //   mask: true,
+  // })
   wx.request({
     url: getApp().globalData.requestUrl + url,
     method: 'post',
@@ -41,7 +41,7 @@ function ajax(url, params, cb) {
           mask: true
         })
       } else if (res.data.code == -1) {
-
+        console.log('123131')
         //未登录，登录授权
         wx.navigateTo({
           url: '/pages/index/login',
@@ -56,12 +56,12 @@ function ajax(url, params, cb) {
     },
     fail: function() {
       wx.hideLoading();
-      wx.showModal({
-        title: '网络错误',
-        content: '网络出错，请刷新重试',
-        showCancel: false,
-        mask: true
-      })
+      // wx.showModal({
+      //   title: '网络错误',
+      //   content: '网络出错，请刷新重试',
+      //   showCancel: false,
+      //   mask: true
+      // })
       return typeof cb == "function" && cb(false)
     }
   })

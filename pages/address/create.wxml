@@ -60,7 +60,8 @@
 	<view class="footer-fixed" bindtap="pay">
 		支付
 	</view>
-	<view class="image-fixed" bindtap="getkefu">
-	<button open-type="contact">进入客服会话</button>
-		<image src="../../img/kf.png" style="width:60px;height:60px;"></image>
+	<view class="image-fixed">
+	<button open-type="contact" class="btn">
+		<image src="../../img/kf.png" style="width:70px;height:70px;"></image>
+	</button>
 	</view>

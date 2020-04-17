@@ -87,9 +87,6 @@ Page({
       })
     })
   },
-  getkefu:function(){
-    console.log('打开客服窗口')
-  },
   init:function(){
 
   },

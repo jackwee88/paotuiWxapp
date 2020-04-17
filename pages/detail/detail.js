@@ -20,7 +20,8 @@ Page({
     createtime: '',
     paytime: '',
     tackcode: '',
-    orderId: ''
+    orderId: '',
+    windowHeight:''
   },
 
   onLoad: function (options) {
@@ -28,7 +29,6 @@ Page({
 
     //页面启动后 调取首页的数据
     if (options.order_id) {
-      console.log(options.order_id + '1111')
       var orderId = options.order_id
       this.setData({
         orderId:orderId
@@ -38,10 +38,15 @@ Page({
       wx.navigateBack({})
     }
   },
-  onShow: function () {},
-  getkefu: function () {
-    console.log('打开客服窗口')
+  onShow: function () {
+    var screenH = wx.getSystemInfoSync().windowHeight
+    this.setData({
+      windowHeight:screenH
+
+    }
+    )
   },
+
   getData(){
     let that = this
     util.ajax('api/Order/getOrderDetails', {

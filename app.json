@@ -1,10 +1,11 @@
 {
   "pages":[
     "pages/address/create",
-    "pages/index/login",
     "pages/detail/detail",
     "pages/logs/logs",
-    "pages/addressDetail/detail"
+    "pages/index/login",
+    "pages/addressDetail/detail",
+    "pages/index/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -13,5 +14,30 @@
     "navigationBarTextStyle": "white"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "borderStyle": "white",
+    "selectedColor": "#008800",
+    "backgroundColor": "#ffffff",
+    "color": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/address/create",
+        "text": "首页",
+        "biaocount": 0,
+        "iconPath": "/img/sy@2x(1).png",
+        "selectedIconPath": "/img/sy@2x.png"
+      },
+      
+      
+      {
+        "pagePath": "pages/index/index",
+        "text": "订单",
+        "biaocount": 0,
+        "iconPath": "/img/wd@2x(1).png",
+        "selectedIconPath": "/img/wd@2x.png"
+      }
+    ],
+    "position": "bottom"
+  }
 }

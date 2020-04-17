@@ -1,4 +1,4 @@
-		<view class="content">
+		<view class="content" style="height:{{windowHeight}}px">
 			<view class="order">
 				<view class="orderstatus">订单状态：{{status}}</view>
 				<!-- 这里是总计 和 邮费 -->
@@ -27,16 +27,19 @@
 
 		</view>
 
+		
+		<view class="confirm" wx:if="{{state==3}}">
+			已完成
+		</view>
 		<view class="footer-fixed" wx:if="{{state==0}}">
 			<view bindtap="tapcacel" class="cancel">取消订单</view>
 			<view bindtap="pay" class="pay">继续支付</view>
 		</view>
-		<view class="confirm" wx:if="{{state==3}}">
-			已完成
-		</view>
 		<view class="confirm" bindtap="confirm" wx:else>
 			确认收件
 		</view>
-		<view class="image-fixed" bindtap="getkefu">
-			<image src="../../img/kf.png" style="width:60px;height:60px;"></image>
-		</view>
+			<view class="image-fixed">
+	<button open-type="contact" class="btn">
+		<image src="../../img/kf.png" style="width:70px;height:70px;"></image>
+	</button>
+	</view>
