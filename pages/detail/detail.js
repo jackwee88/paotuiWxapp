@@ -2,21 +2,6 @@ var App = getApp();
 var util = require('../../utils/util.js')
 Page({
   data: {
-    selectAllStatus: false,
-    wxapp: null,
-    steps: [{
-        text: '付款中',
-        desc: '请及时支付'
-      },
-      {
-        text: '配送中',
-        desc: '后台配货中'
-      },
-      {
-        text: '已完成',
-        desc: '享受宝物中'
-      }
-    ],
     active: 0,
     id: null,
     detail: [],
@@ -34,6 +19,8 @@ Page({
     status: '',
     createtime: '',
     paytime: '',
+    tackcode: '',
+    orderId: ''
   },
 
   onLoad: function (options) {
@@ -42,202 +29,166 @@ Page({
     //页面启动后 调取首页的数据
     if (options.order_id) {
       console.log(options.order_id + '1111')
-      util.ajax('api/Order/getOrderPay', {
-        orderId: options.order_id
-      }, res => {
-        that.setData({
-          number: res.data.orderData.number,
-          addressee: res.data.orderData.addressee,
-          addtime: res.data.orderData.addtime,
-          money: res.data.orderData.money,
-          state: res.data.orderData.state,
-        })
-        function timestampToTime(timestamp) {
-          var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-          var Y = date.getFullYear() + '-';
-          var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-          var D = date.getDate() + ' ';
-          var h = date.getHours() + ':';
-          var m = date.getMinutes() + ':';
-          var s = date.getSeconds();
-          return Y + M + D + h + m + s;
-        }
-        if(res.data.orderData.paytime==0){
-          this.setData({
-            paytime:'未支付'
-          })
-        }else{
-          this.setData({
-            paytime: timestampToTime(res.data.orderData.paytime),
-          })
-        }
-        this.setData({
-          createtime: timestampToTime(res.data.orderData.addtime),
-        })
-        if (this.data.state == 0) {
-          that.setData({
-            status: '未支付'
-          })
-        } else if (this.data.state == 1) {
-          that.setData({
-            status: '配送中'
-          })
-
-        } else if (this.data.state == 2) {
-          that.setData({
-            status: '已送达'
-          })
-
-        } else {
-          that.setData({
-            status: '已确认'
-          })
-        }
+      var orderId = options.order_id
+      this.setData({
+        orderId:orderId
       })
-
+      that.getData()
     } else {
       wx.navigateBack({})
     }
   },
   onShow: function () {},
-  timechange: function () { 
+  getkefu: function () {
+    console.log('打开客服窗口')
+  },
+  getData(){
+    let that = this
+    util.ajax('api/Order/getOrderDetails', {
+      id:this.data.orderId
+    }, res => {
+      that.setData({
+        number: res.data.orderDetails.number,
+        addressee: res.data.orderDetails.addressee,
+        addtime: res.data.orderDetails.addtime,
+        money: res.data.orderDetails.money,
+        state: res.data.orderDetails.state,
+        tackcode: res.data.orderDetails.tackcode,
+      })
+      console.log(this.data.state)
+      function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
+        return Y + M + D + h + m + s;
+      }
+      if (res.data.orderDetails.paytime == 0) {
+        this.setData({
+          paytime: '未支付'
+        })
+      } else {
+        this.setData({
+          paytime: timestampToTime(res.data.orderDetails.paytime),
+        })
+      }
+      this.setData({
+        createtime: timestampToTime(res.data.orderDetails.addtime),
+      })
+      if (res.data.orderDetails.state == 0) {
+        that.setData({
+          status: '未支付'
+        })
+      } else if (res.data.orderDetails.state == 1) {
+        that.setData({
+          status: '配送中'
+        })
 
+      } else if (res.data.orderDetails.state == 2) {
+        that.setData({
+          status: '已送达'
+        })
+
+      } else if (res.data.orderDetails.state == 3){
+        that.setData({
+          status: '已确认'
+        })
+      }else{
+
+      }
+    })
+  },
+  tapcacel: function () {
+    let that = this;
+    wx.showModal({
+      title: "提示",
+      content: "确认取消订单？",
+      success: function(o) {
+        if (o.confirm) {
+          util.ajax('api/Order/setCancel',{orderId:that.data.orderId},res=>{
+            wx.showToast({
+              title: res.msg,
+            })
+            var pages = getCurrentPages();
+            var prevPage = pages[pages.length - 2];
+            prevPage.onShow()
+            setTimeout(function() {
+              wx.navigateBack();
+            }, 500)
+          })
+
+
+        }
+      }
+    });
+    
+  },
+  confirm: function () {
+    util.ajax('api/Order/setConfirm', {
+      orderId: this.data.orderId
+    },res=>{
+      this.getData()
+    })
+  },
+  pay: function () {
+    util.ajax('api/Order/getOrderPay', {
+      orderId: this.data.orderId
+    }, ress => {
+      wx.requestPayment({
+        timeStamp: String(ress.data.requestPayment.timeStamp),
+        nonceStr: ress.data.requestPayment.nonceStr,
+        package: ress.data.requestPayment.package,
+        signType: ress.data.requestPayment.signType,
+        paySign: ress.data.requestPayment.paySign,
+        success: function (payres) {
+          console.log('payres' + payres)
+          wx.showToast({
+            title: '成功支付',
+          })
+
+        },
+        fail: function () {
+          // wx.showModal({
+          //   title: '错误提示',
+          //   content: '支付失败',
+          //   showCancel: false
+          // })
+        },
+        complete: function () {
+          // complete
+        }
+      })
+    })
   },
 
-  // TapCancel: function() {
-  //   let that = this;
-  //   wx.showModal({
-  //     title: "提示",
-  //     content: "确认取消订单？",
-  //     success: function(o) {
-  //       if (o.confirm) {
+  countDown: function () {
 
-  //         App._post('order/cancel', {
-  //           'id': that.data.id
-  //         }, function(result) {
-  //           var pages = getCurrentPages();
-  //           var prevPage = pages[pages.length - 2];
-  //           prevPage.setData({
-  //             page:1,
-  //             OrderList:[],
-  //             status:0,
-  //             active:0
-  //           })
-  //           prevPage.onShow()
-  //           setTimeout(function() {
-  //             wx.navigateBack();
-  //           }, 500)
-
-  //         });
-  //       }
-  //     }
-  //   });
-  // },
-  // onClicktjButton: function () {
-  //   let that = this;
-  //   if (that.data.disabled) {
-  //     return false;
-  //   }
-  //   that.data.disabled = true;
-
-  //   // wx.showLoading({
-  //   //   title: '正在处理...'
-  //   // });
-  //   if (that.data.active == 6) {
-  //     wx.hideLoading()
-  //     return
-  //   }
-  //   //如果待评价
-  //   if (that.data.active == 4) {
-
-  //     var id = that.data.id
-
-  //     wx.navigateTo({
-  //       url: "/pages/addComment/addComment?order_id=" + id
-  //     })
-  //     return;
-  //   }
-  //   //如果是确认收货
-  //   if (that.data.active == 2) {
-
-
-  //     App._post('order/finish', {
-  //       'id': that.data.id
-  //     }, function (result) {
-  //       var pages = getCurrentPages();
-  //       var prevPage = pages[pages.length - 2]; //上一个页面
-  //       var index = that.data.index
-  //       var status = "OrderList[" + index + "].status";
-  //       var showText = "OrderList[" + index + "].showText";
-  //       var showType = "OrderList[" + index + "].showType";
-  //       var showactive = "OrderList[" + index + "].showactive";
-
-
-  //       if (prevPage) {
-  //         // 可以修改上一页的数据
-  //         prevPage.setData({
-  //           [status]: "已完成",
-  //           [showText]: "waitcom",
-  //           [showType]: "已完成",
-  //           [showactive]: 6
-  //         })
-
-
-  //         setTimeout(function () {
-  //           that.onShow()
-  //         }, 1000)
-  //         //  wx.navigateBack({
-  //         //   delta:1
-  //         // })
-
-  //       }
-
-  //     }, function (result) {
-  //       console.log(result);
-  //     }, function () {
-  //       that.data.disabled = false;
-  //     });
-  //     return;
-  //   }
-
-  //   App._post('order/order_pay', {
-  //     'id': that.data.id
-  //   }, function (result) {
-
-  //     //这里发起支付
-  //     that.wx_pay_fun(result.data);
-  //   }, function (result) {
-  //     console.log(result);
-  //   }, function () {
-  //     that.data.disabled = false;
-  //   });
-  // },
-
-  // countDown: function () {
-
-  //   var that = this;
-  //   var now_time = that.data.time_diff; //获取时间差
-  //   this.data.intervarID = setInterval(function () { //设置定时器
-  //     //将时间差减一秒
-  //     now_time--;
-  //     //计算天时分秒
-  //     let d = Math.floor((now_time - (now_time % 86400)) / 86400);
-  //     let h = Math.floor((now_time % 86400) / 3600);
-  //     let m = Math.floor((now_time % 3600) / 60);
-  //     let s = now_time % 60;
-  //     //将计算结果保存至data
-  //     that.setData({
-  //       day: d,
-  //       hourse: h,
-  //       minute: m,
-  //       second: s,
-  //     });
-  //     //当时间差为0时,清除定时器
-  //     if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-  //       clearInterval(that.data.intervarID);
-  //     }
-  //   }, 1000)
-  // },
+    var that = this;
+    var now_time = that.data.time_diff; //获取时间差
+    this.data.intervarID = setInterval(function () { //设置定时器
+      //将时间差减一秒
+      now_time--;
+      //计算天时分秒
+      let d = Math.floor((now_time - (now_time % 86400)) / 86400);
+      let h = Math.floor((now_time % 86400) / 3600);
+      let m = Math.floor((now_time % 3600) / 60);
+      let s = now_time % 60;
+      //将计算结果保存至data
+      that.setData({
+        day: d,
+        hourse: h,
+        minute: m,
+        second: s,
+      });
+      //当时间差为0时,清除定时器
+      if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+        clearInterval(that.data.intervarID);
+      }
+    }, 1000)
+  },
 
   logistics() {
     wx.navigateTo({

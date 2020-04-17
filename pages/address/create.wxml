@@ -1,5 +1,4 @@
-	<view style="width:90%;margin:20rpx auto">
-
+	<view style="width:90%;margin:20rpx auto;margin-bottom:120px">
 		<view class='scroll_view_border' style="--marqueeWidth--:-12em">
 			<view style="display:flex;background-color:#fff;position:relative;z-index:22;height:100%;align-items:center;">
 				<image src="../../img/gg.png" style="width:34rpx;height:34rpx;"></image>
@@ -7,57 +6,61 @@
 			<view class="srcoll_view" bindtap="textclick">{{annouce}}
 			</view>
 		</view>
-			<scroll-view scroll-y>
-			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx" bindtap="getLocation">
-					<text class='itemtitle'>从哪里取</text>
-					<view class="select" wx:if="{{address_name}}==''">
-					<text >{{address_name}}</text>
-					<image src="../../img/xl.png" style="width:10px;height:6px;margin-left:5px"></image>
-					</view>
-					<text class="input" wx:else>{{address_name}}</text>
-				</view>
-			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
-				<text class='itemtitle'>收件人</text>
-				<input class='input' type='text' value='{{addressee}}' data-type="addressee" bindinput='inputChange' placeholder="请填写收件人姓名"></input>
+		<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx" bindtap="getLocation">
+			<text class='itemtitle'>从哪里取</text>
+			<view class="selected" wx:if="{{address_name!==''}}" >
+				<view class="address">{{address_name}}</view>
+				<image src="../../img/xl.png" style="width:10px;height:6px;margin-left:5px"></image>
 			</view>
-			<view class="sex">
-				<view bindtap="chooseSex" class="fs-28 sel-item {{sexCurrent==campus.id?'active':''}}" data-id="{{campus.id}}" wx:for="{{sexList}}" wx:for-item="campus" wx:key="id">{{campus.name}}</view>
+			<view class="selectaddress" wx:else>
+				<text class="input">请选择地址</text>
+				<image src="../../img/xl.png" style="width:10px;height:6px;margin-left:5px"></image>
 			</view>
-			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
-				<text class='itemtitle'>手机号码</text>
-				<input class='input' type='text' value='{{addressee_mobile}}' data-type="addressee_mobile" bindinput='inputChange' placeholder="请填写收件人电话" maxlength="11"></input>
-			</view>
-			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
-				<text class='itemtitle'>取件码</text>
-				<input class='input' type='text' value='{{tackcode}}' data-type="tackcode" bindinput='inputChange' placeholder="请填写取件码(字母加数字)"></input>
-			</view>
-			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
-				<text class='itemtitle'>送到哪</text>
-				<input class='input' type='text' value='{{receipt_address}}' data-type="receipt_address" bindinput='inputChange' placeholder="送到哪"></input>
-			</view>
-			<view style="position:relative">
-				<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx" bindtap="getTime">
-					<text class='itemtitle'>配送时间</text>
-					<view class="select" wx:if="{{checkedtime}}==''">
-					<text>{{checkedtime}}</text>
-					<image src="../../img/xl.png" style="width:10px;height:6px;margin-left:5px"></image>
-					</view>
-					<text class="input" wx:else>{{checkedtime}}</text>
-				</view>
 
-				<view class="time" wx:if="{{visible}}">
-					<view bindtap="checkedtime" data-time="{{time[0].describ}}">{{time[0].describ}}</view>
-					<view bindtap="checkedtime" data-time="{{time[1].describ}}">{{time[1].describ}}</view>
+		</view>
+		<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
+			<text class='itemtitle'>收件人</text>
+			<input class='input' type='text' value='{{addressee}}' data-type="addressee" bindinput='inputChange' placeholder="请填写收件人姓名"></input>
+		</view>
+		<view class="sex">
+			<view bindtap="chooseSex" class="fs-28 sel-item {{sexCurrent==campus.id?'active':''}}" data-id="{{campus.id}}" wx:for="{{sexList}}" wx:for-item="campus" wx:key="id">{{campus.name}}</view>
+		</view>
+		<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
+			<text class='itemtitle'>手机号码</text>
+			<input class='input' type='text' value='{{addressee_mobile}}' data-type="addressee_mobile" bindinput='inputChange' placeholder="请填写收件人电话" maxlength="11"></input>
+		</view>
+		<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
+			<text class='itemtitle'>取件码</text>
+			<input class='input' type='text' value='{{tackcode}}' data-type="tackcode" bindinput='inputChange' placeholder="请填写取件码(字母加数字)"></input>
+		</view>
+		<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx">
+			<text class='itemtitle'>送到哪</text>
+			<input class='input' type='text' value='{{receipt_address}}' data-type="receipt_address" bindinput='inputChange' placeholder="请填写送达地址"></input>
+		</view>
+		<!-- <view style="position:relative">
+			<view class='form-item' style="border-top-left-radius: 20rpx;border-top-right-radius:20rpx" bindtap="getTime">
+				<text class='itemtitle'>配送时间</text>
+				<view class="select">
+					<text  wx:if="{{checkedtime}}==''">请选择时间</text>
+					<text class="input" wx:if="{{checkedtime}}!==''">{{checkedtime}}</text>
+					<image src="../../img/xl.png" style="width:10px;height:6px;margin-left:5px"></image>
 				</view>
 			</view>
-			<view class="hr" style="margin-bottom:20rpx;"></view>
-	</scroll-view>
-			
+
+			<view class="time" wx:if="{{visible}}">
+				<view bindtap="checkedtime" data-time="{{time[0].describ}}">{{time[0].describ}}</view>
+				<view bindtap="checkedtime" data-time="{{time[1].describ}}">{{time[1].describ}}</view>
+
+			</view>
+		</view>
+		<view class="hr" style="margin-bottom:20rpx;"></view> -->
+
 	</view>
 
 	<view class="footer-fixed" bindtap="pay">
 		支付
 	</view>
-	<view class="image-fixed">
+	<view class="image-fixed" bindtap="getkefu">
+	<button open-type="contact">进入客服会话</button>
 		<image src="../../img/kf.png" style="width:60px;height:60px;"></image>
 	</view>

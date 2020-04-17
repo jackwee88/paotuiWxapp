@@ -64,6 +64,19 @@ Page({
   onShow: function () {
     this.getAnnouce()
     var screenW = wx.getSystemInfoSync().windowWidth
+    var token=wx.getStorageSync('token')
+    var address = wx.getStorageSync('addressinfo')
+    if(address){
+      this.setData({
+        address_name:address.address_name,
+        address_id:address.address_name
+      })
+    }
+    if(!token){
+      wx.navigateTo({
+        url: '/pages/index/login',
+      })
+    }
   },
   //获取地址类型
   getAnnouce:function(){
@@ -73,6 +86,9 @@ Page({
         annouce:res.data.notice.content
       })
     })
+  },
+  getkefu:function(){
+    console.log('打开客服窗口')
   },
   init:function(){
 
@@ -87,7 +103,6 @@ Page({
       takecode:that.data.tackcode,
       // time:e.currentTarget.dataset.id,
     }
-    console.log(param)
     if (!that.validation(param)) {
       App.showError(that.data.error);
       return false;
@@ -102,7 +117,6 @@ Page({
     });
     //这里提交服务器
     util.ajax('api/Order/setOrder', param,res=>{
-      console.log(param)
       wx.setStorageSync('userinfo', param)
       util.ajax('api/Order/getOrderPay',{orderId:res.data.orderDetails.id},ress=>{
         wx.requestPayment({
@@ -150,9 +164,6 @@ Page({
       visible:false,
       checkedtime:e.currentTarget.dataset.time
     })
-    console.log(this.data.checkedtime)
-    console.log(this.data.address_name)
-
   },
   inputChange:function(e){
     var that = this
@@ -160,10 +171,8 @@ Page({
     this.setData({
       [type]: e.detail.value
     })
-    console.log(type)
   },
-  validation: function (values) {
-    
+  validation: function (values) {   
     if (values.address_name === '') {
       wx.showToast({
         title: '请选择取件地址',
@@ -196,10 +205,6 @@ Page({
       });
       return false;
     }
-    // if (!values.address_name) {
-    //   this.data.error = '取件地址不能为空';
-    //   return false;
-    // }
     if (values.receipt_address === '') {
       wx.showToast({
         title: '请填写送达地址',
@@ -251,7 +256,6 @@ Page({
     var that = this
     wx.chooseLocation({
       success: function (res) {
-        console.log(res)
         that.setData({
           addrname: res.name,
           addr: res.address,    //调用成功直接设置地址
@@ -283,7 +287,6 @@ Page({
                           //授权成功之后，再调用chooseLocation选择地方
                           wx.chooseLocation({
                             success: function (res) {
-                             console.log(res)
                               that.setData({
                                 addrname: res.name,
                                 addr: res.address,    //调用成功直接设置地址

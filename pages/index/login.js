@@ -36,23 +36,28 @@ Page({
   onGotUserInfo: function (e) {
     wx.login({
       success: function (res) {
-        util.ajax(
-          'api/Member/login',{
-            code:res.code,
-            encryptedData:App.globalData.encryptedData,
-            iv:App.globalData.iv
-          },res =>{
-            console.log('ddddddddddddd'+res.data.memberDetails.token)
-            wx.setStorageSync('token', res.data.memberDetails.token)
-            App.globalData.userInfo = res.data.memberDetails;
-            wx.switchTab({
-              url: '/pages/address/create',
-            })
-            // wx.navigateBack({
-            //   detal:1
-            // })
+        wx.getUserInfo({
+          success: ress => {
+            // 可以将 res 发送给后台解码出 unionId
+            util.ajax(
+              'api/Member/login',{
+                code:res.code,
+                encryptedData:ress.encryptedData,
+                iv:ress.iv
+              },res =>{
+                wx.setStorageSync('token', res.data.memberDetails.token)
+                App.globalData.userInfo = res.data.memberDetails;
+                wx.switchTab({
+                  url: '/pages/address/create',
+                })
+                // wx.navigateBack({
+                //   detal:1
+                // })
+              }
+            )
           }
-        )
+        })
+        
         }
     })
     

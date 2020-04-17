@@ -37,7 +37,31 @@
   text-align: center;
   line-height: 48px;
   color: #ffffff;
-  background-color: #48b25a; 
+  background-color: #48b25a;
+  display: flex;
+  flex-direction: row;
+}
+.confirm{
+  height: 48px;
+  z-index: 18;
+  bottom: 0;
+  position: fixed;
+  width: 750rpx;
+  text-align: center;
+  line-height: 48px;
+  color: #ffffff;
+  background-color: #48b25a;
+  
+}
+.cancel{
+  width: 50%;
+  background-color: #E02020;
+  text-align: center;
+}
+.pay{
+  width: 50%;
+  background-color: #48b25a;
+  text-align: center;
 }
 .image-fixed{
   width: 50px;

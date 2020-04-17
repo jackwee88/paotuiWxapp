@@ -12,10 +12,17 @@ Page({
   },
 
   onLoad: function() {
-    this.getData()
   },
   onShow: function() {
-    
+    const that = this
+    util.ajax('api/Sundry/getAddressList',{
+      limit:10,
+      page:that.data.page
+    },res=>{
+      that.setData({
+        detail_addr:res.data.addressList
+      })
+    })
   },
   getData:function(){
     const that = this
@@ -23,7 +30,6 @@ Page({
       limit:10,
       page:that.data.page
     },res=>{
-      console.log(res)
       that.setData({
         detail_addr:res.data.addressList
       })
@@ -35,6 +41,11 @@ Page({
     var prevPage = pages[pages.length-2];
     var id = e.currentTarget.dataset.id
     var name = e.currentTarget.dataset.name
+    let param ={
+      address_id:id,
+      address_name:name,
+    }
+    wx.setStorageSync('addressinfo', param)
     console.log(name)
     prevPage.setData({
       address_id:id,
@@ -44,7 +55,7 @@ Page({
       wx.navigateBack({
         delta: 1, //返回到前一个页面
       })
-    }, 1000)
+    }, 500)
   },
   onUnload(){
     var pages = getCurrentPages();

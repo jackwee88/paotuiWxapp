@@ -26,9 +26,17 @@
 			</view>
 
 		</view>
-		<view class="footer-fixed" bindtap="confirm">
+
+		<view class="footer-fixed" wx:if="{{state==0}}">
+			<view bindtap="tapcacel" class="cancel">取消订单</view>
+			<view bindtap="pay" class="pay">继续支付</view>
+		</view>
+		<view class="confirm" wx:if="{{state==3}}">
+			已完成
+		</view>
+		<view class="confirm" bindtap="confirm" wx:else>
 			确认收件
 		</view>
-		<view class="image-fixed">
+		<view class="image-fixed" bindtap="getkefu">
 			<image src="../../img/kf.png" style="width:60px;height:60px;"></image>
 		</view>
