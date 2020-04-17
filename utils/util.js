@@ -56,12 +56,12 @@ function ajax(url, params, cb) {
     },
     fail: function() {
       wx.hideLoading();
-      // wx.showModal({
-      //   title: '网络错误',
-      //   content: '网络出错，请刷新重试',
-      //   showCancel: false,
-      //   mask: true
-      // })
+      wx.showModal({
+        title: '网络错误',
+        content: '网络出错，请刷新重试',
+        showCancel: false,
+        mask: true
+      })
       return typeof cb == "function" && cb(false)
     }
   })
