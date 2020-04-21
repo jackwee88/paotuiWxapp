@@ -21,7 +21,7 @@ Page({
     paytime: '',
     tackcode: '',
     orderId: '',
-    windowHeight:''
+    windowHeight: ''
   },
 
   onLoad: function (options) {
@@ -31,9 +31,8 @@ Page({
     if (options.order_id) {
       var orderId = options.order_id
       this.setData({
-        orderId:orderId
+        orderId: orderId
       })
-      that.getData()
     } else {
       wx.navigateBack({})
     }
@@ -41,16 +40,24 @@ Page({
   onShow: function () {
     var screenH = wx.getSystemInfoSync().windowHeight
     this.setData({
-      windowHeight:screenH
+      windowHeight: screenH
 
-    }
-    )
+    })
+    this.getData()
+    console.log('12354')
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];
+    // prevPage.loadData()  
+    prevPage.setData({
+      page: 1,
+      orderlist: [],
+    })
   },
 
-  getData(){
+  getData() {
     let that = this
     util.ajax('api/Order/getOrderDetails', {
-      id:this.data.orderId
+      id: this.data.orderId
     }, res => {
       that.setData({
         number: res.data.orderDetails.number,
@@ -60,7 +67,6 @@ Page({
         state: res.data.orderDetails.state,
         tackcode: res.data.orderDetails.tackcode,
       })
-      console.log(this.data.state)
       function timestampToTime(timestamp) {
         var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
         var Y = date.getFullYear() + '-';
@@ -97,11 +103,11 @@ Page({
           status: '已送达'
         })
 
-      } else if (res.data.orderDetails.state == 3){
+      } else if (res.data.orderDetails.state == 3) {
         that.setData({
           status: '已确认'
         })
-      }else{
+      } else {
 
       }
     })
@@ -111,45 +117,47 @@ Page({
     wx.showModal({
       title: "提示",
       content: "确认取消订单？",
-      success: function(o) {
+      success: function (o) {
         if (o.confirm) {
-          util.ajax('api/Order/setCancel',{orderId:that.data.orderId},res=>{
+          util.ajax('api/Order/setCancel', {
+            orderId: that.data.orderId
+          }, res => {
             wx.showToast({
               title: res.msg,
             })
-            
+
             var pages = getCurrentPages();
             var prevPage = pages[pages.length - 2];
             // prevPage.loadData()  
             prevPage.setData({
-              page:1,
-              orderlist:[],
+              page: 1,
+              orderlist: [],
             })
-            prevPage.onShow()
-            setTimeout(function() {
+            setTimeout(function () {
               // wx.switchTab({
               //   url: '/pages/index/index',
               // });
               wx.navigateBack({
-                delta:1
+                delta: 1
               })
-            }, 1000)         
+            }, 1000)
           })
 
 
         }
       }
     });
-    
+
   },
   confirm: function () {
     util.ajax('api/Order/setConfirm', {
       orderId: this.data.orderId
-    },res=>{
+    }, res => {
       this.getData()
     })
   },
   pay: function () {
+    let that = this
     util.ajax('api/Order/getOrderPay', {
       orderId: this.data.orderId
     }, ress => {
@@ -160,26 +168,44 @@ Page({
         signType: ress.data.requestPayment.signType,
         paySign: ress.data.requestPayment.paySign,
         success: function (payres) {
-          console.log('payres' + payres)
           wx.showToast({
             title: '成功支付',
           })
-
+          setTimeout(() => {
+            that.onShow()
+          }, 500);
         },
         fail: function () {
-          // wx.showModal({
-          //   title: '错误提示',
-          //   content: '支付失败',
-          //   showCancel: false
-          // })
+          wx.showModal({
+            title: '错误提示',
+            content: '支付失败',
+            showCancel: false
+          })
+          setTimeout(() => {
+            that.onShow()
+          }, 500);
         },
-        complete: function () {
-          // complete
-        }
+        complete: function () {},
       })
     })
   },
+  onShareAppMessage: function(e) {
+    App.globalData.preview = false
+    if (e.from === 'button') {
+    } else {
+      var that = this
+      return {
+        title: '快乐邮差',
+        path: '',
+        success: function(res) {
 
+        }
+      }
+    }
+
+
+
+  },
   countDown: function () {
 
     var that = this;

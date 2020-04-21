@@ -30,14 +30,8 @@ Page({
   onLoad: function (options) {
     this.getAnnouce()
     this.init()
-    var token=wx.getStorageSync('token')
     var userinfo = wx.getStorageSync('userinfo')
     var id = wx.getStorageSync('sex')
-    if(!token){
-      wx.navigateTo({
-        url: '/pages/index/login',
-      })
-    }
     if(userinfo){
       this.setData({
         addressee:userinfo.addressee,
@@ -55,7 +49,6 @@ Page({
   onShow: function () {
     this.getAnnouce()
     var screenW = wx.getSystemInfoSync().windowWidth
-    var token=wx.getStorageSync('token')
     var address = wx.getStorageSync('addressinfo')
     if(address){
       this.setData({
@@ -63,21 +56,11 @@ Page({
         address_id:address.address_name
       })
     }
-    if(!token){
-      wx.navigateTo({
-        url: '/pages/index/login',
-      })
-    }
   },
   //获取地址类型
   getAnnouce:function(){
     let that=this
     util.ajax('api/Sundry/getNotice','',res=>{
-      if(res.code==0){
-        wx.navigateTo({
-          url: '/pages/index/login',
-        })
-      }
       that.setData({
         annouce:res.data.notice.content
       })
@@ -86,8 +69,27 @@ Page({
   init:function(){
 
   },
+  onShareAppMessage: function(e) {
+    App.globalData.preview = false
+    if (e.from === 'button') {
+    } else {
+      var that = this
+      return {
+        title: '快乐邮差',
+        path: '',
+        success: function(res) {
+
+        }
+      }
+    }
+
+
+
+  },
   pay: function (e) {
     let that = this;
+    var token=wx.getStorageSync('token');
+    
     let param={
       addressee:that.data.addressee,
       address_id:that.data.address_id,
@@ -109,39 +111,52 @@ Page({
       disabled: true
     });
     //这里提交服务器
-    util.ajax('api/Order/setOrder', param,res=>{
-      wx.setStorageSync('userinfo', param)
-      util.ajax('api/Order/getOrderPay',{orderId:res.data.orderDetails.id},ress=>{
-        wx.requestPayment({
-          timeStamp: String(ress.data.requestPayment.timeStamp),
-          nonceStr: ress.data.requestPayment.nonceStr,
-          package: ress.data.requestPayment.package,
-          signType: ress.data.requestPayment.signType,
-          paySign: ress.data.requestPayment.paySign,
-          success: function (payres) {
-            wx.navigateTo({
-              url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
-
-            })
-
-          },
-          fail: function () {
-            // wx.showModal({
-            //   title: '错误提示',
-            //   content: '支付失败',
-            //   showCancel: false
-            // })
-            wx.navigateTo({
-              url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
-
-            })
-          },
-          complete: function () {
-            // complete
-          }
-        })
+    if(!token){
+      wx.showToast({
+        title: '请先登录',
       })
-    });
+      setTimeout(function () {
+        wx.navigateTo({
+          url: '/pages/index/login',
+        })
+      }, 500)
+      
+    }else{
+      util.ajax('api/Order/setOrder', param,res=>{
+        wx.setStorageSync('userinfo', param)
+        util.ajax('api/Order/getOrderPay',{orderId:res.data.orderDetails.id},ress=>{
+          wx.requestPayment({
+            timeStamp: String(ress.data.requestPayment.timeStamp),
+            nonceStr: ress.data.requestPayment.nonceStr,
+            package: ress.data.requestPayment.package,
+            signType: ress.data.requestPayment.signType,
+            paySign: ress.data.requestPayment.paySign,
+            success: function (payres) {
+              wx.navigateTo({
+                url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
+  
+              })
+  
+            },
+            fail: function () {
+              // wx.showModal({
+              //   title: '错误提示',
+              //   content: '支付失败',
+              //   showCancel: false
+              // })
+              wx.navigateTo({
+                url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
+  
+              })
+            },
+            complete: function () {
+              // complete
+            }
+          })
+        })
+      });
+    }
+    
   },
 
   getTime:function(){
@@ -244,6 +259,35 @@ Page({
     wx.navigateTo({
       url: '/pages/addressDetail/detail',
     })
+  },
+  wxlogin: function (e) {
+    wx.login({
+      success: function (res) {
+        wx.getUserInfo({
+          success: ress => {
+            // 可以将 res 发送给后台解码出 unionId
+            util.ajax(
+              'api/Member/login',{
+                code:res.code,
+                encryptedData:ress.encryptedData,
+                iv:ress.iv
+              },res =>{
+                wx.setStorageSync('token', res.data.memberDetails.token)
+                App.globalData.userInfo = res.data.memberDetails;
+                wx.switchTab({
+                  url: '/pages/address/create',
+                })
+                // wx.navigateBack({
+                //   detal:1
+                // })
+              }
+            )
+          }
+        })
+        
+        }
+    })
+    
   },
   getPermission: function () {
     var that = this

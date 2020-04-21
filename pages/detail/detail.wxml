@@ -31,7 +31,7 @@
 		<view class="confirm" wx:if="{{state==3}}">
 			已完成
 		</view>
-		<view class="footer-fixed" wx:if="{{state==0}}">
+		<view class="footer-fixed" wx:elif="{{state==0}}">
 			<view bindtap="tapcacel" class="cancel">取消订单</view>
 			<view bindtap="pay" class="pay">继续支付</view>
 		</view>

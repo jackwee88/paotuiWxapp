@@ -33,7 +33,6 @@ Page({
       this.setData({
         orderId:orderId
       })
-      that.getData()
     } else {
       wx.navigateBack({})
     }
@@ -45,6 +44,8 @@ Page({
 
     }
     )
+    this.getData()
+
   },
 
   getData(){
@@ -141,7 +142,25 @@ Page({
       this.getData()
     })
   },
+  onShareAppMessage: function(e) {
+    App.globalData.preview = false
+    if (e.from === 'button') {
+    } else {
+      var that = this
+      return {
+        title: '快乐邮差',
+        path: '',
+        success: function(res) {
+
+        }
+      }
+    }
+
+
+
+  },
   pay: function () {
+    let that =this
     util.ajax('api/Order/getOrderPay', {
       orderId: this.data.orderId
     }, ress => {
@@ -156,7 +175,9 @@ Page({
           wx.showToast({
             title: '成功支付',
           })
-
+          setTimeout(() => {
+            that.onShow()
+          }, 500);
         },
         fail: function () {
           // wx.showModal({
@@ -164,6 +185,10 @@ Page({
           //   content: '支付失败',
           //   showCancel: false
           // })
+          setTimeout(() => {
+            that.onShow()
+          }, 500);
+
         },
         complete: function () {
           // complete

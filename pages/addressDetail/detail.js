@@ -57,6 +57,20 @@ Page({
       })
     }, 500)
   },
+  onShareAppMessage: function(e) {
+    App.globalData.preview = false
+    if (e.from === 'button') {
+    } else {
+      var that = this
+      return {
+        title: '快乐邮差',
+        path: '',
+        success: function(res) {
+
+        }
+      }
+    }
+  },
   onUnload(){
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2];  //上一个页面

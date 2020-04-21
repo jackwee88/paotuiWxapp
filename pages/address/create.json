@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "仓库",
+  "navigationBarTitleText": "邮差",
   "usingComponents": {
     "van-cell": "/res/vant/cell/index",
     "van-cell-group": "/res/vant/cell-group/index",
