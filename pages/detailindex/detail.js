@@ -120,16 +120,8 @@ Page({
             
             var pages = getCurrentPages();
             var prevPage = pages[pages.length - 2];
-            // prevPage.loadData()  
-            prevPage.setData({
-              page:1,
-              orderlist:[],
-            })
-            prevPage.onShow()
+
             setTimeout(function() {
-              // wx.switchTab({
-              //   url: '/pages/index/index',
-              // });
               wx.navigateBack({
                 delta:1
               })

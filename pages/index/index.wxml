@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="content">
+<view class="content" style="height:{{windowHeight}}px">
 	<view wx:for="{{orderlist}}" wx:for-item="item" wx:key="id" class="order" bindtap="getdetail" data-id="{{item.id}}">
 		<view class="orderstatus">订单状态：{{item.showText}}</view>
 		<view class="ordernum">订单编号：{{item.number}}</view>

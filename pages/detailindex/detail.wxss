@@ -1,0 +1,248 @@
+.p-bottom {
+  margin-top: -22rpx;
+}
+.content{
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.order {
+  width: 96%;
+  margin-bottom: 20rpx;
+  border-radius: 5px;
+  margin:20rpx auto;
+  background-color: #ffffff;
+}
+.orderstatus{
+  background-color: #E02020;
+  color: white;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px 5px 0px 0;
+}
+.ordermoney{
+  font-size: 14px;
+  padding: 10px;
+  color:#333333 ;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.footer-fixed {
+  height: 48px;
+  z-index: 18;
+  bottom: 0;
+  position: fixed;
+  width: 750rpx;
+  text-align: center;
+  line-height: 48px;
+  color: #ffffff;
+  background-color: #48b25a;
+  display: flex;
+  flex-direction: row;
+}
+.confirm{
+  height: 48px;
+  z-index: 18;
+  bottom: 0;
+  position: fixed;
+  width: 750rpx;
+  text-align: center;
+  line-height: 48px;
+  color: #ffffff;
+  background-color: #48b25a;
+  
+}
+.cancel{
+  width: 50%;
+  background-color: #E02020;
+  text-align: center;
+}
+.pay{
+  width: 50%;
+  background-color: #48b25a;
+  text-align: center;
+}
+.image-fixed {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  border: 25px;
+  right: 10px;
+  top: 250px;
+  z-index: 100;
+}
+.btn{
+  width: 70px !important;
+  height: 70px;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0);
+  padding: 0 !important;
+}
+.tagadress {
+  margin-left: 1em;
+}
+.total{
+  width: 96%;
+  margin: 6px auto;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+.error_goods {
+  background-color: #fff;
+  filter: Alpha(Opacity=30);
+  opacity: 0.3;
+}
+
+.lianxirentip {
+  color: #6d189e;
+}
+
+.ico-ad {
+  font-size: 12px !important;
+  margin-right: 0.68em;
+}
+
+.card-t-c {
+  font-size: 1.4em;
+}
+
+.card-p-c {
+  font-size: 1.3em;
+  color: red;
+  font-weight: bolder;
+}
+
+.card-op-c {
+  font-size: 1.1em;
+  text-decoration: none !important;
+  margin-top: 0.28em;
+}
+
+.card-root-c {
+  /*padding-top: 10px;*//*border:1px solid #ecd1fc;*/
+  background-color: #fff;
+}
+
+.van-card-root-c {
+  box-shadow: 0 1px 2px #dfb3f8;
+  background-color: white !important;
+}
+
+.no-more {
+  margin: 1em auto;
+  text-align: center;
+  color: #6d189e;
+}
+
+.pric-cell {
+  color: #f44;
+}
+
+.vcg-c {
+  padding-top: 10px;
+  box-shadow: 0 1px 2px #dfb3f8;
+}
+
+.vsp-c {
+  box-shadow: 0 1px 2px #dfb3f8;
+  margin-bottom: 10px;
+}
+
+#title .van-cell {
+  background: -webkit-linear-gradient(bottom, #e44a54, #f35b64); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(bottom, #e44a54, #f35b64); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(bottom, #e44a54, #f35b64); /* Firefox 3.6 - 15 */
+  background: linear-gradient(bottom, #e44a54, #f35b64); /* 标准的语法（必须放在最后） */
+  background-color: transparent !important;
+  color: #fff !important;
+  width: 96% !important;
+  margin: 0.3em auto 0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.p-bottom {
+  width: 96%;
+  margin: 0 auto;
+   /* margin-top: -10rpx; */
+}
+
+.van-card-root-c {
+  box-shadow: none !important;
+  background-color: #fff;
+ 
+}
+
+.vcg-c {
+  box-shadow: none !important;
+}
+
+#order-info .van-cell__value {
+  flex: 2;
+}
+
+.button {
+  width: 120rpx;
+  height: 46rpx;
+  line-height: 46rpx;
+  border: 1rpx solid #969696;
+  color: #969696;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  text-align: center;
+  float: right;
+  margin-left: 10rpx;
+}
+
+.orderButton {
+  height: 70rpx;
+  width: 100%;
+  border-bottom: 1rpx solid #e7e7e7;
+  padding-bottom: 20rpx;
+  /* padding-top:10rpx; */
+  clear: both;
+}
+
+.van-submit-bar__button button {
+  width: 184rpx !important;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 30rpx;
+  margin-right: 20rpx;
+}
+
+#btn-box .van-tag {
+  color: black;
+  padding: 0rpx !important;
+  background-color: #fff !important;
+  border-radius: 30rpx;
+  display: inline-block;
+  border: 1rpx solid #ccc;
+  width: 184rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  margin-right: 16rpx;
+  font-size: 28rpx;
+}
+
+.van-submit-bar {
+  -webkit-user-select: none;
+  user-select: none;
+  display: flex;
+  width: 100%;
+  background-color: white;
+  justify-content: flex-end;
+}
+
+.van-submit-bar__tip {
+  background-color: #fff !important;
+}
+
+#btn-box #cancle-order .van-tag {
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  border: none;
+}

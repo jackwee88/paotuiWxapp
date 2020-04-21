@@ -5,7 +5,10 @@ var util = require('../../utils/util.js')
 Page({
   data: {
     orderlist: [],
-    page: 1
+    page: 1,
+    windowHeight:'',
+    trueHeight:''
+
   },
   //事件处理函数
   bindViewTap: function () {
@@ -13,9 +16,15 @@ Page({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
-
+  onShow:function(){
+    var screenH = wx.getSystemInfoSync().windowHeight
+    this.setData({
+      windowHeight:screenH-20
+    })
+    console.log(this.data.windowHeight)
     this.getOrderList()
+  },
+  onLoad: function () {
   },
   onReachBottom(){
     this.getOrderList()

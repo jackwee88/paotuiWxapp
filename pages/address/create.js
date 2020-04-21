@@ -3,15 +3,6 @@ var util = require('../../utils/util.js')
 Page({
 
   data: {
-    time:[{
-      id:1,
-      describ:"60-90分钟以内"
-    },
-    {
-      id:2,
-      describ:'当天送达'
-    }
-  ],
   checkedtime:'',
     campusList: [],
     visible:false,
@@ -82,6 +73,11 @@ Page({
   getAnnouce:function(){
     let that=this
     util.ajax('api/Sundry/getNotice','',res=>{
+      if(res.code==0){
+        wx.navigateTo({
+          url: '/pages/index/login',
+        })
+      }
       that.setData({
         annouce:res.data.notice.content
       })
@@ -123,8 +119,8 @@ Page({
           signType: ress.data.requestPayment.signType,
           paySign: ress.data.requestPayment.paySign,
           success: function (payres) {
-            wx.redirectTo({
-              url: '/pages/detail/detail?order_id=' + res.data.orderDetails.id
+            wx.navigateTo({
+              url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
 
             })
 
@@ -135,8 +131,8 @@ Page({
             //   content: '支付失败',
             //   showCancel: false
             // })
-            wx.redirectTo({
-              url: '/pages/detail/detail?order_id=' + res.data.orderDetails.id
+            wx.navigateTo({
+              url: '/pages/detailindex/detail?order_id=' + res.data.orderDetails.id
 
             })
           },
