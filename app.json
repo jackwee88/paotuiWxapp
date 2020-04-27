@@ -5,12 +5,13 @@
     "pages/logs/logs",
     "pages/index/login",
     "pages/addressDetail/detail",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/detailindex/detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#48b25a",
-    "navigationBarTitleText": "仓库",
+    "navigationBarTitleText": "邮差",
     "navigationBarTextStyle": "white"
   },
   "style": "v2",

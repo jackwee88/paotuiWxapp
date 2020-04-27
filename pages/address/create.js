@@ -53,7 +53,7 @@ Page({
     if(address){
       this.setData({
         address_name:address.address_name,
-        address_id:address.address_name
+        address_id:address.address_id
       })
     }
   },
